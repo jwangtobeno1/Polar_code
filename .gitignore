@@ -1,2 +1,7 @@
+/*
+!.gitignore
+!Makefile
+!README.md
+!*/
 **__pycache__
 decode/build/

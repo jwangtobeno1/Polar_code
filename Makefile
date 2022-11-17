@@ -45,7 +45,7 @@ sim: $(VSRCS) $(CSRCS)
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		--Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
 
-##因为第二条命令是在第一条命令的基础上运行，故应把这两条命令写在一行上，用分号分隔
+##因为第二条命令是test在第一条命令的基础上运行，故应把这两条命令写在一行上，用分号分隔
 run:
 	cd build; ./$(TOPNAME) 
 
