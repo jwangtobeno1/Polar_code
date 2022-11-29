@@ -13,6 +13,7 @@ module func_fg(
     input signed [11:0] llr_a,
     input signed [11:0] llr_b,
     input   wire        f_flag,
+    input   wire        s, //g_function = (1-2s)llr_a+llr_b
     output  signed [11:0]   dout
 );
 
@@ -52,7 +53,7 @@ function [11:0] g_func(input [12:0] tmp);
     end
 endfunction 
 
-assign g_res = (llr_a[11]^llr_b[11]) ? sub : sum;
+assign g_res = (s) ? sub : sum;
 
 assign dout = (f_flag) ? f_res : g_res;
 

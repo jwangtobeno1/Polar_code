@@ -4,12 +4,12 @@ from random import randint
 import numpy as np
 
 source_file = 'source_arr.txt'
-encoude_result_file = 'polar_encode_result_arr.txt'
+encoude_result_file = 'encode_result.txt'
 filename = 'encode_example.txt'
 
 #s = [] #source
 source_arr = np.array([])
-K = 128 #信源长度
+K = 16 #信源长度
 R = 0.5 #码率
 N = int(K/R) #码长256
 
@@ -28,10 +28,9 @@ def gen_source(s_arr,K = 128):
     if(len(s_arr) == 0):
         u = [randint(0,1) for i in range(K)]  #信源
         u_arr = np.array(u)
-        s_arr = u_arr
     else:
         u_arr = s_arr
-    np.savetxt(source_file,u_arr,fmt = '%d')
+    # np.savetxt(source_file,u_arr,fmt = '%d')
     u_str = list(map(str,u_arr))
     u_hex = []
     for i in range(0,K,4):
@@ -40,6 +39,7 @@ def gen_source(s_arr,K = 128):
     u_hex = ''.join(u_hex)
     with open(filename,'a') as file_obj:
         file_obj.write(f"\nsource: {''.join(u_str)}\nhex: {str(u_hex)}\n")
+    return u_arr
    
 def construction_polar_code():
     """极化权重进行可靠性检测"""
@@ -59,15 +59,27 @@ def construction_polar_code():
 def bit_mix(s,good_channels):
     """比特混合，将信源插入到可靠信道，其余信道为冻结bit 0"""
     mix_data = [0 for i in range(N)]
-    j = 0
+    for i in range(K):
+        mix_data[good_channels[i]] = 1
+
+    j=0
+    for i in range(N):
+        if(mix_data[i] == 1):
+            mix_data[i] = s[j]
+            j = j + 1
+
+    return mix_data
+
+def bit_mix_system(s,good_channels):
+    mix_data = [0 for i in range(N)]
     for i in range(K):
         mix_data[good_channels[i]] = 1
     
     for i in range(N):
         if(mix_data[i] == 1):
-            mix_data[i] = s[j]
-            j = j + 1
+            mix_data[i] = s[i]
     return mix_data
+    
 
 def kronecker(mix_data):
     """x = u*G=u*F ： u - 信源，G - 生成矩阵"""
@@ -89,11 +101,22 @@ def bit_reversed(s):
 
 def polar_encode(s_arr,K,N):
     pw_id = construction_polar_code()
+    print(pw_id[K:N])
     mix_data = bit_mix(s_arr,pw_id[K:N])
     kron_result_arr = kronecker(mix_data[:])
-    bit_reverse_result = bit_reversed(kron_result_arr)
+    
+    mix_data2 = bit_mix_system(kron_result_arr,pw_id[K:N])
+    kron_result = kronecker(mix_data2[:])
+
+    bit_reverse_result = bit_reversed(kron_result)
+
     polar_int = list(map(int,bit_reverse_result))
     polar_arr = np.array(polar_int)
+
+    print(f"mix_data\t: {mix_data}\nkron_result\t: {kron_result_arr}")
+    print(f"mix_data2\t: {mix_data2}\nkron_result\t: {kron_result}")
+    print(f"bit_reverse: {bit_reverse_result}")
+
     np.savetxt(encoude_result_file,polar_arr,fmt = '%d')
     polar_str = list(map(str,polar_int))
     polar_hex = []
@@ -107,9 +130,11 @@ def polar_encode(s_arr,K,N):
         file_obj.write(f"polar_encode: {polar_encode_result}\npolar_encode_hex: {polar_hex}\n")
     
 if __name__ == '__main__':
-    source_arr = load_source()
-    print(f"len is:{len(source_arr)}")
-    if len(source_arr) == 0:
-        gen_source(source_arr,K)
+    # source_arr = load_source()
+    # print(f"len is:{len(source_arr)}")
+    # if len(source_arr) == 0:
+    #     source_arr = gen_source([],K)
+    source_arr = gen_source([],K)
+    print(source_arr)
     polar_encode(source_arr,K,N)
 
