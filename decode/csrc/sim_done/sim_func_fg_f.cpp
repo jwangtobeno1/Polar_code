@@ -6,7 +6,9 @@
 #include <string>
 using namespace std;
 
-#define LLR_NUM 300
+//this file can sim f_function!
+
+#define LLR_NUM 30
 
 int main(int argc, char** argv, char** env) {
     uint32_t llr_arr[LLR_NUM],llr[3];
@@ -44,8 +46,9 @@ int main(int argc, char** argv, char** env) {
         llr[1] = llr_arr[i+1];
         llr[0] = llr_arr[i+2];
         std::copy(std::begin(llr),std::end(llr),std::begin(top->llr));
-        /* printf("topllr[0] is %u\nllr[1] is %u\nllr[2] is %u\n",top->llr[0],top->llr[1],top->llr[2]); */
+        printf("llr[0] is %u\nllr[1] is %u\nllr[2] is %u\n",top->llr[0],top->llr[1],top->llr[2]);
         top->eval();
+        cout << top->llr_out << endl;
         if(top->llr_out == fres_arr[j]) compare_res = "TRUE";
         else compare_res = "FALSE";
         printf("llr_out is %ld\tpy_out is %ld\t",top->llr_out,fres_arr[j++]);
