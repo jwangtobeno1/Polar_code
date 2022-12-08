@@ -1,60 +1,51 @@
 //======================================================
 //Filename                : func_fg.v
 //Author                  : WangJie
-//Created On              : 2022-11-15 10:34
+//Created On              : 2022-12-04 22:25
 //Last Modified           : 
 //Description             : 
-//      function f and function g
-//      if flag == 1'b1 : function_f
-//      else            : function_g
+//                          
 //======================================================
+`include "defines.v"
 
 module func_fg(
-    input signed [11:0] llr_a,
-    input signed [11:0] llr_b,
-    input   wire        f_flag,
-    input   wire        s, //g_function = (1-2s)llr_a+llr_b
-    output  signed [11:0]   dout
+    input   wire    [`PROCESS_UNIT_LLR_BUS]     llr,
+    input   wire    [`FUNC_G_BIT_LEN-1:0]       bit_in,
+    input   wire                                flag_fg,  //1 -> f;   0 -> g;
+    output  wire    [`PORCESS_UNIT_LLR_OUT_BUS]    llr_out
 );
 
-wire    [11:0]  abs_a;
-wire    [11:0]  abs_b;
-wire    [11:0]  min_abs;
-wire    [11:0]  min;
+wire [`LLR_INTERNAL_LEN-1:0] llr_arr  [`PROCESS_UNIT_LLR_NUM-1:0];
+wire [`LLR_INTERNAL_LEN-1:0] dout_arr [`FUNC_G_BIT_LEN-1:0];
+wire [0:0]                   s_arr    [`FUNC_G_BIT_LEN-1:0];
 
-wire signed [12:0] sum_ab;
-wire signed [11:0] sum;
-wire signed [12:0] sub_ab;
-wire signed [11:0] sub;
-
-wire signed [11:0] f_res;
-wire signed [11:0] g_res;
-
-//f函数
-assign abs_a = (llr_a[11]) ? {(~llr_a[11:4])+1'b1,llr_a[3:0]} : llr_a;
-assign abs_b = (llr_b[11]) ? {(~llr_b[11:4])+1'b1,llr_b[3:0]} : llr_b;
-assign min_abs = (abs_a > abs_b) ? abs_b : abs_a; //正数
-assign min = (llr_a[11]^llr_b[11]) ? {~(min_abs[11:4])+1'b1,min_abs[3:0]} : min_abs;//补码
-assign f_res = {llr_a[11]^llr_b[11],min[10:0]};
-
-//g函数
-assign sum_ab = llr_b + llr_a;
-assign sum = g_func(sum_ab);
-assign sub_ab = llr_b - llr_a;
-assign sub = g_func(sub_ab);
-
-function [11:0] g_func(input [12:0] tmp);
-    begin
-        case(tmp[12:11])
-            2'b01 : g_func = {{8'b0111_1111},tmp[3:0]};
-            2'b10 : g_func = {{8'b1000_0000},tmp[3:0]};
-            default : g_func = tmp[11:0];
-        endcase
+generate
+    genvar i;
+    for(i = 0; i < `PROCESS_UNIT_LLR_NUM; i = i+1) begin : gen_scale
+        assign llr_arr[i] = llr[i*`LLR_INTERNAL_LEN+:`LLR_INTERNAL_LEN];
     end
-endfunction 
+endgenerate
 
-assign g_res = (s) ? sub : sum;
+generate
+    genvar s_i;
+    for(s_i=0; s_i < `FUNC_G_BIT_LEN; s_i = s_i+1) begin : gen_si
+        assign s_arr[s_i] = bit_in[s_i:s_i];
+    end
+endgenerate
 
-assign dout = (f_flag) ? f_res : g_res;
+generate
+    genvar j;
+    for(j = 0; j < `PROCESS_UNIT_LLR_NUM; j = j+2) begin : gen_scale_j
+        pe pe_inst_j(
+            .llr_a(llr_arr[j]),
+            .llr_b(llr_arr[j+1]),
+            .flag(flag_fg),
+            .s(s_arr[j/2]),
+            .dout(dout_arr[j/2])
+        );
+    end
+endgenerate
+
+assign llr_out = {dout_arr[7],dout_arr[6],dout_arr[5],dout_arr[4],dout_arr[3],dout_arr[2],dout_arr[1],dout_arr[0]};
 
 endmodule

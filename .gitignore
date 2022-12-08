@@ -5,5 +5,5 @@
 !*/
 **__pycache__
 decode/build/
-t.txt
+t*.txt
 t.py

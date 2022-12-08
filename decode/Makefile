@@ -4,6 +4,7 @@ VCDNAME = simx
 VERILATOR = verilator
 SIMFLAGS = --trace
 VERILATOR_CFLAGS += -MMD --build -cc \
+				-I./vsrc \
 				 -O3 --x-assign fast --x-initial fast --noassert
 
 BUILD_DIR = ./build
@@ -16,8 +17,8 @@ default: $(BIN)
 $(shell mkdir -p $(BUILD_DIR))
 
 ## project source
-VSRCS = $(shell find $(abspath ./vsrc) -name "*.v")
-CSRCS = $(shell find $(abspath ./csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
+VSRCS = $(shell find $(abspath ./vsrc) -maxdepth 1 -name "*.v")
+CSRCS = $(shell find $(abspath ./csrc) -maxdepth 1 -name "*.c" -or -name "*.cc" -or -name "*.cpp")
 
 # rules for verilator
 INCFLAGS = $(addprefix -I , $(INC_PATH))
