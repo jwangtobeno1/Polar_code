@@ -11,6 +11,8 @@
 `define PORCESS_UNIT_LLR_OUT_BUS (`LLR_INTERNAL_LEN*`FUNC_G_BIT_LEN)-1 : 0
 `define FUNC_G_BIT_LEN `PROCESS_UNIT_LLR_NUM/2
 
+`define FUNC_REP_BIT_BUS `PROCESS_UNIT_LLR_NUM-1:0 //15:0
+
 `define INST_BUS 7:0 //4(operation) :3(stage) :1(left or right) 
 `define INST_OPCODE_BUS 3:0
 `define INST_OP_LOCATION 7:4

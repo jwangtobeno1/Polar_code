@@ -1,4 +1,4 @@
-TOPNAME = func_fg
+TOPNAME = func_rep
 VCDNAME = simx
 
 VERILATOR = verilator

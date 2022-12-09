@@ -7,7 +7,7 @@
 #include <string>
 using namespace std;
 
-#define LLR_NUM 30 //3*i  
+#define LLR_NUM 24 //3*i  
 
 int main(int argc, char** argv, char** env) {
     uint32_t llr_arr[LLR_NUM],llr[3];
