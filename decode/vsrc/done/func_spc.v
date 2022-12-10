@@ -1,5 +1,5 @@
 //======================================================
-//Filename                : .v
+//Filename                : func_spc.v
 //Author                  : WangJie
 //Created On              : 2022-12-09 21:56
 //Last Modified           : 
