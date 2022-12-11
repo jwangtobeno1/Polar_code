@@ -8,11 +8,15 @@
 //llr_arr_1 = {llr[0],llr[2],llr[4], ... ,llr[14]}
 //llr_arr_2 = {llr[1],llr[3],llr[5], ... ,llr[15]}
 //
+//llr_arr_1 => llr_sum_1 => b[1]
+//llr_arr_2 => llr_sum_2 => b[0]
+//
+//out = {4{b[1],b[0]}}
 //======================================================
 `include "defines.v"
 module func_type1(
     input   wire    [`PROCESS_UNIT_LLR_BUS] llr,
-    output  wire    [`FUNC_TYPE1_BIT_BUS] bit_out
+    output  wire    [`FUNC_TYPE_BIT_BUS] bit_out
 );
 
 wire [`LLR_INTERNAL_LEN+2-1:0] llr_arr_1  [`PROCESS_UNIT_LLR_NUM/4-1:0];
