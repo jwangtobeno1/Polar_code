@@ -1,4 +1,4 @@
-TOPNAME = func_rate1
+TOPNAME = func_type1
 VCDNAME = simx
 
 VERILATOR = verilator
