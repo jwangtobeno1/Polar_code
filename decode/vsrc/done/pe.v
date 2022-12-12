@@ -10,7 +10,7 @@
 //======================================================
 
 // LLR_INTERNAL_LEN = 6
-`timescale 1ns/1ps
+`include "defines.v"
 
 module pe(
     input signed [`LLR_INTERNAL_LEN-1:0] llr_a,

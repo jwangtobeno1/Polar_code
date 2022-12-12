@@ -16,7 +16,7 @@
 
 module func_rate1(
     input   wire    [`PROCESS_UNIT_LLR_BUS] llr,
-    output  wire    [`FUNC_SPC_BIT_BUS]     bit_out
+    output  wire    [`FUNC_SPC_BIT_BUS]     bit_out //[15:0] same with spc!
 );
 
 wire [`LLR_INTERNAL_LEN-1:0] llr_arr  [`PROCESS_UNIT_LLR_NUM-1:0];

@@ -1,0 +1,2 @@
+`verilator_config
+full_case -file "bit_combine.v" -lines 30

@@ -14,6 +14,7 @@
 //out = {4{b[1],b[0]}}
 //======================================================
 `include "defines.v"
+
 module func_type1(
     input   wire    [`PROCESS_UNIT_LLR_BUS] llr,
     output  wire    [`FUNC_TYPE_BIT_BUS] bit_out
@@ -38,7 +39,7 @@ endgenerate
 
 generate
     genvar j;
-    for(j = 1; j < `PROCESS_UNIT_LLR_NUM/2; j = j+2) begin : gen_scale
+    for(j = 1; j < `PROCESS_UNIT_LLR_NUM/2; j = j+2) begin : gen_scale2
         assign llr_arr_2[j/2] = llr[(`PROCESS_UNIT_LLR_NUM*`LLR_INTERNAL_LEN-j*`LLR_INTERNAL_LEN)-1] == 0 ?
             {2'b00,llr[(`PROCESS_UNIT_LLR_NUM*`LLR_INTERNAL_LEN-j*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]} : 
             {2'b11,llr[(`PROCESS_UNIT_LLR_NUM*`LLR_INTERNAL_LEN-j*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]};

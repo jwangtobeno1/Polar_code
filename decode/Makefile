@@ -1,8 +1,11 @@
-TOPNAME = func_type3
+TOPNAME = bit_combine
+TOPPARA = N
+TOPPARA_VALUE = 32
 VCDNAME = simx
 
 VERILATOR = verilator
 SIMFLAGS = --trace
+PARAFLAG = -G$(TOPPARA)=$(TOPPARA_VALUE)
 VERILATOR_CFLAGS += -MMD --build -cc \
 				-I./vsrc \
 				 -O3 --x-assign fast --x-initial fast --noassert
@@ -19,6 +22,7 @@ $(shell mkdir -p $(BUILD_DIR))
 ## project source
 VSRCS = $(shell find $(abspath ./vsrc) -maxdepth 1 -name "*.v")
 CSRCS = $(shell find $(abspath ./csrc) -maxdepth 1 -name "*.c" -or -name "*.cc" -or -name "*.cpp")
+VLT_SRC = $(shell find $(abspath ./vsrc) -maxdepth 1 -name "*.vlt")
 
 # rules for verilator
 INCFLAGS = $(addprefix -I , $(INC_PATH))
@@ -28,7 +32,7 @@ CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 $(BIN): $(VSRCS) $(CSRCS)
 	@rm -rf $(OBJ_DIR)
 	$(VERILATOR) $(VERILATOR_CFLAGS) \
-		-top $(TOPNAME) $^ \
+		-top $(TOPNAME) $(VLT_SRC) $^ \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		--Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
 

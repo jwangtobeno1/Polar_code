@@ -10,6 +10,8 @@
 //      else : invert min_abs bit;
 //
 //======================================================
+`include "defines.v"
+
 module func_spc(
     input   wire    [`PROCESS_UNIT_LLR_BUS] llr,
     output  wire    [`FUNC_SPC_BIT_BUS]     bit_out

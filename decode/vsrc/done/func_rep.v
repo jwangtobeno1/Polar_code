@@ -7,6 +7,7 @@
 //                          
 //======================================================
 `include "defines.v"
+
 module func_rep(
     input   wire    [`PROCESS_UNIT_LLR_BUS] llr,
     output  wire    [`FUNC_REP_BIT_BUS]     bit_out
