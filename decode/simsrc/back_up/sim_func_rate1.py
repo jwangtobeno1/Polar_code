@@ -27,41 +27,32 @@ def genllr(N):
             llr_str = llr_str[32:]
         llr_num_list.append(llr_tmp)
     llr_arr = np.array(llr_str_list)
-    # np.savetxt(llr_file,llr_arr,fmt="%d")
+    np.savetxt(llr_file,llr_arr,fmt="%d")
     llr = [llr_num_list,llr_str_tmp_list]
-    return [llr,llr_arr]
+    return llr
 
-def type1(N=16):
+def rate1():
+    N = 16*100
     llr = genllr(N)
-    llr_arr = np.array(llr[0][0])
+    llr_arr = np.array(llr[0])
     result = []
     tmp_str = ''
     for i in range(0,N,16):
-        t = np.reshape(llr_arr[i:i+8],(2,4),order = 'F')
-        sum1 = np.sum(t[0])
-        sum2 = np.sum(t[1])
-        if sum1 >= 0:
-            b1 = 0
-        else:
-            b1 = 1
-        if sum2 >= 0:
-            b2 = 0
-        else:
-            b2 = 1
-        dout = [b1,b2]*4
-        dout_num = int(dout[0])*128+int(dout[1])*64+int(dout[2])*32+int(dout[3])*16+int(dout[4])*8+int(dout[5])*4+int(dout[6])*2+int(dout[7])
-        result.append(dout_num)
-        tmp_str = '{:0>8b}'.format(dout_num)
+        j = i
+        tmp = 0
+        for k in range(16):
+            if llr_arr[j+k] >= 0:
+                tmp = tmp*2+0
+            else:
+                tmp = tmp*2+1
+        result.append(tmp)
+        tmp_str = '{:0>16b}'.format(tmp)
 
-        # print(f"llr_str is {llr[1][i:i+16]}\nllr_num is {llr[0][i:i+16]}\nresult is {tmp_str}")
-        # print(f"sum1 is {sum1}\tsum2 is {sum2}")
+        print(f"llr_str is {llr[1][i:i+16]}\nllr_num is {llr[0][i:i+16]}\nresult is {tmp_str}")
 
     res_arr = np.array(result)
-    print(f"type1 result is {res_arr}")
-    return [llr[1],res_arr]
-    # np.savetxt(process_file,res_arr,fmt="%d")
+    np.savetxt(bit_file,res_arr,fmt="%d")
 
 
 if __name__ == "__main__":
-    N = 16*100
-    type1(N)
+    rate1()

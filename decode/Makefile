@@ -1,4 +1,4 @@
-TOPNAME = bit_combine
+TOPNAME = process_unit
 TOPPARA = N
 TOPPARA_VALUE = 32
 VCDNAME = simx
@@ -7,7 +7,7 @@ VERILATOR = verilator
 SIMFLAGS = --trace
 PARAFLAG = -G$(TOPPARA)=$(TOPPARA_VALUE)
 VERILATOR_CFLAGS += -MMD --build -cc \
-				-I./vsrc \
+				-I./vsrc/done \
 				 -O3 --x-assign fast --x-initial fast --noassert
 
 BUILD_DIR = ./build
@@ -32,7 +32,7 @@ CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 $(BIN): $(VSRCS) $(CSRCS)
 	@rm -rf $(OBJ_DIR)
 	$(VERILATOR) $(VERILATOR_CFLAGS) \
-		-top $(TOPNAME) $(VLT_SRC) $^ \
+		-top $(TOPNAME) $^ \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		--Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
 

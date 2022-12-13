@@ -2,9 +2,7 @@
 # coding=utf-8
 from random import randint
 import numpy as np
-polar_file = "/hdd/Projects/Polar_code/"
-llr_file = polar_file + "decode/csrc/simfile/llr.txt"
-process_file = polar_file+"decode/csrc/simfile/pfile.txt"
+llr_file = "./csrc/simfile/llr.txt"
 f_file = "./csrc/simfile/f_res.txt"
 g_file = "./csrc/simfile/g_res.txt"
 g_bit_file = "./csrc/simfile/g_bit.txt"
@@ -14,12 +12,12 @@ g_bit_file = "./csrc/simfile/g_bit.txt"
 #     tmp = randint(0,2**32-1)
 #     llr.append(tmp)
 
-def f(N=8):
+def f():
     llr_str = ''
     llr = []
     f_str = ''
     f = []
-    # N = 80
+    N = 80
     for i in range(N):    #8*3 per 8 can generate 96bit
         llr_up = randint(0,2**6-1)
         llr_down = randint(0,2**6-1)
@@ -36,7 +34,7 @@ def f(N=8):
         else:
             min_llr = -min_abs
             f_res = bin(min_llr % (1<<6))[2:]
-        # print(f"llr_up is {llr_up_str}\nllr_down is {llr_down_str}\nf_res is {f_res}")
+        print(f"llr_up is {llr_up_str}\nllr_down is {llr_down_str}\nf_res is {f_res}")
 
         f_str = f_str + f_res
         if len(f_str) >= 48:
@@ -49,19 +47,18 @@ def f(N=8):
 
     llr_arr = np.array(llr)
     f_arr = np.array(f)
-    # print(llr_arr)
-    print(f"f result is {f_arr}")
-    return [llr_arr,f_arr]
-    # np.savetxt(llr_file,llr_arr,fmt="%d")
-    # np.savetxt(process_file,f_arr,fmt="%d")
+    print(llr_arr)
+    print(f_arr)
+    np.savetxt(llr_file,llr_arr,fmt="%d")
+    np.savetxt(f_file,f_arr,fmt="%d")
 
-def g(N=8):
+def g():
     g_str = ''
     g = []
     llr_str = ''
     llr = []
     bit_list = []
-    # N = 80 #8 * i = N; i
+    N = 80 #8 * i = N; i
     bit = 0
     for i in range(N):    # per 8 can generate 96bit
         bit_tmp = randint(0,1)
@@ -107,13 +104,10 @@ def g(N=8):
     bit_arr = np.array(bit_list)
     # print(f"bit_arr is\t{bit_arr}")
     # print(f"llr_arr is\t{llr_arr}")
-    print(f"g result is\t{g_arr}")
-    return [llr_arr,bit_arr,g_arr]
-    # np.savetxt(llr_file,llr_arr,fmt="%d")
-    # np.savetxt(g_bit_file,bit_arr,fmt="%1d")
-    # np.savetxt(process_file,g_arr,fmt="%d")
+    # print(f"g_arr is\t{g_arr}")
+    np.savetxt(llr_file,llr_arr,fmt="%d")
+    np.savetxt(g_bit_file,bit_arr,fmt="%1d")
+    np.savetxt(g_file,g_arr,fmt="%d")
 
 if __name__ == "__main__":
-    N = 80 #8 * i = N; i
-    f(N)
-
+    f()

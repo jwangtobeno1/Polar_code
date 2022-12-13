@@ -27,14 +27,13 @@ def genllr(N):
             llr_str = llr_str[32:]
         llr_num_list.append(llr_tmp)
     llr_arr = np.array(llr_str_list)
-    np.savetxt(llr_file,llr_arr,fmt="%d")
+    # np.savetxt(llr_file,llr_arr,fmt="%d")
     llr = [llr_num_list,llr_str_tmp_list]
-    return llr
+    return [llr,llr_arr]
 
-def rep():
-    N = 16*100
+def rep(N=16):
     llr = genllr(N)
-    llr_arr = np.array(llr[0])
+    llr_arr = np.array(llr[0][0])
     result = []
     for i in range(0,N,16):
         llr_sum = np.sum(llr_arr[i:i+16])
@@ -47,9 +46,12 @@ def rep():
         # print(f"llr_str is {llr[1][i:i+16]}\nllr_num is {llr[0][i:i+16]}\nllr_sum is {llr_sum}\nresult is {tmp}")
 
     res_arr = np.array(result)
-    np.savetxt(bit_file,res_arr,fmt="%d")
+    print(f"rep result is {res_arr}")
+    return [llr[1],res_arr]
+    # np.savetxt(process_file,res_arr,fmt="%d")
 
 
 
 if __name__ == "__main__":
-    rep()
+    N = 16*100
+    rep(N)

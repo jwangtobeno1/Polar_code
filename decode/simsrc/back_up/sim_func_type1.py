@@ -27,13 +27,14 @@ def genllr(N):
             llr_str = llr_str[32:]
         llr_num_list.append(llr_tmp)
     llr_arr = np.array(llr_str_list)
-    # np.savetxt(llr_file,llr_arr,fmt="%d")
+    np.savetxt(llr_file,llr_arr,fmt="%d")
     llr = [llr_num_list,llr_str_tmp_list]
-    return [llr,llr_arr]
+    return llr
 
-def type1(N=16):
+def type1():
+    N = 16*100
     llr = genllr(N)
-    llr_arr = np.array(llr[0][0])
+    llr_arr = np.array(llr[0])
     result = []
     tmp_str = ''
     for i in range(0,N,16):
@@ -53,15 +54,12 @@ def type1(N=16):
         result.append(dout_num)
         tmp_str = '{:0>8b}'.format(dout_num)
 
-        # print(f"llr_str is {llr[1][i:i+16]}\nllr_num is {llr[0][i:i+16]}\nresult is {tmp_str}")
-        # print(f"sum1 is {sum1}\tsum2 is {sum2}")
+        print(f"llr_str is {llr[1][i:i+16]}\nllr_num is {llr[0][i:i+16]}\nresult is {tmp_str}")
+        print(f"sum1 is {sum1}\tsum2 is {sum2}")
 
     res_arr = np.array(result)
-    print(f"type1 result is {res_arr}")
-    return [llr[1],res_arr]
-    # np.savetxt(process_file,res_arr,fmt="%d")
+    np.savetxt(bit_file,res_arr,fmt="%d")
 
 
 if __name__ == "__main__":
-    N = 16*100
-    type1(N)
+    type1()

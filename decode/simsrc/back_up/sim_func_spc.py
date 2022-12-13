@@ -27,13 +27,14 @@ def genllr(N):
             llr_str = llr_str[32:]
         llr_num_list.append(llr_tmp)
     llr_arr = np.array(llr_str_list)
-    # np.savetxt(llr_file,llr_arr,fmt="%d")
+    np.savetxt(llr_file,llr_arr,fmt="%d")
     llr = [llr_num_list,llr_str_tmp_list]
-    return [llr,llr_arr]
+    return llr
 
-def spc(N=16):
+def spc():
+    N = 16*100
     llr = genllr(N)
-    llr_arr = np.array(llr[0][0])
+    llr_arr = np.array(llr[0])
     result = []
     tmp = 0
     tmp_str = ''
@@ -77,11 +78,8 @@ def spc(N=16):
         # print(f"num_1 is {num_1}\tmin_llr is {min_llr}\tindex is {index}\n")
 
     res_arr = np.array(result)
-    print(f"spc result is {res_arr}")
-    return [llr[1],res_arr]
-    # np.savetxt(process_file,res_arr,fmt="%d")
+    np.savetxt(bit_file,res_arr,fmt="%d")
 
 
 if __name__ == "__main__":
-    N = 16*100
-    spc(N)
+    spc()
