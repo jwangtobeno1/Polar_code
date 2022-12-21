@@ -51,7 +51,7 @@ function [`LLR_INTERNAL_LEN-1:0] g_func(input [`LLR_INTERNAL_LEN:0] tmp);
     begin
         case(tmp[`LLR_INTERNAL_LEN : `LLR_INTERNAL_LEN-1])
             2'b01 : g_func = {6'b01_1111};
-            2'b10 : g_func = {6'b10_0000};
+            2'b10 : g_func = {6'b10_0001};
             default : g_func = tmp[`LLR_INTERNAL_LEN-1:0];
         endcase
     end

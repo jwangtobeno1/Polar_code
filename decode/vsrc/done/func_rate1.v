@@ -30,6 +30,6 @@ generate
     end
 endgenerate
 
-assign bit_out = bit_tmp;
+assign bit_out = {bit_tmp[15],bit_tmp[7],bit_tmp[11],bit_tmp[3],bit_tmp[13],bit_tmp[5],bit_tmp[9],bit_tmp[1],bit_tmp[14],bit_tmp[6],bit_tmp[10],bit_tmp[2],bit_tmp[12],bit_tmp[4],bit_tmp[8],bit_tmp[0]};
 
 endmodule

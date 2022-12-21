@@ -21,7 +21,10 @@
 `define FUNC_SPC4_LLR_BUS 23:0
 `define FUNC_SPC4_BIT_BUS 3:0
 
-`define INST_BUS 7:0 //4(operation) :3(stage) :1(left or right) 
+`define CNT_INST_MAX 209
+`define INST_BUS 11:0 //11:8(llr&bit mem_addr) : 7:0(PU inst)
+
+`define PU_INST_BUS 7:0 //4(operation) :3(stage) :1(left or right) 
 `define PU_OPCODE_BUS 3:0
 `define INST_STAGE_BUS 2:0
 `define PU_OP_LOCATION 7:4
@@ -38,6 +41,8 @@
 `define BIT_COMBINE 4'b1010
 `define BIT_COMBINE_0R 4'b1100
 
+`define REVERSE      3'd7
+`define COMB2TO4     3'd6
 `define COMB4TO8     3'd0
 `define COMB8TO16    3'd1
 `define COMB16TO32   3'd2

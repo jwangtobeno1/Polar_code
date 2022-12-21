@@ -1,4 +1,4 @@
-TOPNAME = process_unit
+TOPNAME = decoder256
 TOPPARA = N
 TOPPARA_VALUE = 32
 VCDNAME = simx

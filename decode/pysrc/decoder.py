@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
+#!/usr/bin/env python
+# coding=utf-8
 import numpy as np
 
 base_dir = "/hdd/Projects/Polar_code/decode/pysrc/"
@@ -209,262 +211,108 @@ def extract_u(u_d,info_pos):
     return u
 
 def decode_256(llr):
-    record = []
     l128l = f_func(llr)
-    record.append(compare(l128l))
     l64l = f_func(l128l)
-    record.append(compare(l64l))
     l32r = g_0r(l64l)
-    record.append(compare(l32r))
     l16r = g_0r(l32r)
-    record.append(compare(l16r))
     l8l = f_func(l16r)
-    record.append(compare(l8l))
     b8l = func_rep(l8l)
-    record.append(formbit(b8l))
     l8r = g_func(l16r,b8l)
-    record.append(compare(l8r))
     l4l = f_func(l8r)
-    record.append(compare(l4l))
     b4l = func_rep(l4l)
-    record.append(formbit(b4l))
     l4r = g_func(l8r,b4l) #10
-    record.append(compare(l4r))
     b4r = func_spc(l4r)
-    record.append(formbit(b4r))
     b8r = bit_combine(b4l,b4r)
-    record.append(formbit(b8r))
     b16r = bit_combine(b8l,b8r)
-    record.append(formbit(b16r))
     b32r = bit_combine_0r(b16r)
-    record.append(formbit(b32r))
     b64l = bit_combine_0r(b32r)
-    record.append(formbit(b64l))
-    # print,(f"b8l:\t{b8l}\nb4r:\t{b4r}\nb8r:\t{b8r}\nb16r:\t{b16r}\nb32r:\t{b32r}\nb64l:\t{b64l}\n")
+    # print(f"b8l:\t{b8l}\nb4r:\t{b4r}\nb8r:\t{b8r}\nb16r:\t{b16r}\nb32r:\t{b32r}\nb64l:\t{b64l}\n")
     l64r = g_func(l128l,b64l)#16
-    record.append(compare(l64r))
     l32l = f_func(l64r)
-    record.append(compare(l32l))
     l16l = f_func(l32l)
-    record.append(compare(l16l))
     b16l = func_rep(l16l)
-    record.append(formbit(b16l))
     l16r = g_func(l32l,b16l)
-    record.append(compare(l16r))
     l8l = f_func(l16r)
-    record.append(compare(l8l))
     b8l = func_rep(l8l)
-    record.append(formbit(b8l))
     l8r = g_func(l16r,b8l) #23
-    record.append(compare(l8r))
     l4l = f_func(l8r)
-    record.append(compare(l4l))
     b4l = func_rep(l4l)
-    record.append(formbit(b4l))
     l4r = g_func(l8r,b4l)
-    record.append(compare(l4r))
     b4r = func_spc(l4r)
-    record.append(formbit(b4r))
     b8r = bit_combine(b4l,b4r)
-    record.append(formbit(b8r))
     b16r= bit_combine(b8l,b8r)
-    record.append(formbit(b16r))
-    b32l = bit_combine(b16l,b16r)
-    record.append(formbit(b32l))
-    # print,(f"b16l:\t{b16l}\nb8l:\t{b8l}\nb4l:\t{b4l}\nb4r:\t{b4r}\nb8r:\t{b8r}\nb16r:\t{b16r}\nb32l:\t{b32l}\n")
+    b32l= bit_combine(b16l,b16r)
+    # print(f"b16l:\t{b16l}\nb8l:\t{b8l}\nb4l:\t{b4l}\nb4r:\t{b4r}\nb8r:\t{b8r}\nb16r:\t{b16r}\nb32l:\t{b32l}\n")
     l32r = g_func(l64r,b32l)
-    record.append(compare(l32r))
     l16l = f_func(l32r) #32
-    record.append(compare(l16l))
     l8l = f_func(l16l)
-    record.append(compare(l8l))
     b8l = func_rep(l8l)
-    record.append(formbit(b8l))
     l8r = g_func(l16l,b8l)
-    record.append(compare(l8r))
     b8r = func_type3(l8r)
-    record.append(formbit(b8r))
     b16l = bit_combine(b8l,b8r)
-    record.append(formbit(b16l))
     l16r = g_func(l32r,b16l)
-    record.append(compare(l16r))
     b16r = func_spc(l16r)
-    record.append(formbit(b16r))
     b32r = bit_combine(b16l,b16r)
-    record.append(formbit(b32r))
     b64r = bit_combine(b32l,b32r)
-    record.append(formbit(b64r))
     b128l = bit_combine(b64l,b64r)#42
-    record.append(formbit(b128l))
-    # print,(f"b8l:\t{b8l}\nb8r:\t{b8r}\nb16l:\t{b16l}\nb16r:\t{b16r}\nb32r:\t{b32r}\nb64r:\t{b64r}\n")
+    # print(f"b8l:\t{b8l}\nb8r:\t{b8r}\nb16l:\t{b16l}\nb16r:\t{b16r}\nb32r:\t{b32r}\nb64r:\t{b64r}\n")
     
     l128r = g_func(llr,b128l)
-    record.append(compare(l128r))
     l64l = f_func(l128r)
-    record.append(compare(l64l))
     l32l = f_func(l64l)
-    record.append(compare(l32l))
     l16l = f_func(l32l)
-    record.append(compare(l16l))
     b16l = func_rep(l16l)
-    record.append(formbit(b16l))
     l16r = g_func(l32l,b16l)
-    record.append(compare(l16r))
     l8l = f_func(l16r)
-    record.append(compare(l8l))
     b8l = func_type1(l8l)
-    record.append(formbit(b8l))
     l8r = g_func(l16r,b8l)
-    record.append(compare(l8r))
     b8r = func_spc(l8r)
-    record.append(formbit(b8r))
     b16r = bit_combine(b8l,b8r)
-    record.append(formbit(b16r))
     b32l = bit_combine(b16l,b16r)#54
-    record.append(formbit(b32l))
-    # print,(f"b16l:\t{b16l}\nb8l:\t{b8l}\nb8r:\t{b8r}\nb16r:\t{b16r}\nb32l:\t{b32l}\n")
+    # print(f"b16l:\t{b16l}\nb8l:\t{b8l}\nb8r:\t{b8r}\nb16r:\t{b16r}\nb32l:\t{b32l}\n")
     l32r = g_func(l64l,b32l)
-    record.append(compare(l32r))
     l16l = f_func(l32r)
-    record.append(compare(l16l))
     l8l = f_func(l16l)
-    record.append(compare(l8l))
     l4l = f_func(l8l)
-    record.append(compare(l4l))
     b4l = func_rep(l4l)
-    record.append(formbit(b4l))
     l4r = g_func(l8l,b4l)
-    record.append(compare(l4r))
     b4r = func_spc(l4r)
-    record.append(formbit(b4r))
     b8l = bit_combine(b4l,b4r)
-    record.append(formbit(b8l))
     l8r = g_func(l16l,b8l)
-    record.append(compare(l8r))
     b8r = func_spc(l8r)
-    record.append(formbit(b8r))
     b16l = bit_combine(b8l,b8r)
-    record.append(formbit(b16l))
     l16r = g_func(l32r,b16l)
-    record.append(compare(l16r))
     b16r = func_spc(l16r)
-    record.append(formbit(b16r))
     b32r = bit_combine(b16l,b16r)
-    record.append(formbit(b32r))
     b64l = bit_combine(b32l,b32r)#69
-    record.append(formbit(b64l))
-    # print,(f"b4l:\t{b4l}\nb4r:\t{b4r}\nb8l:\t{b8l}\nb8r:\t{b8r}\nb16l:\t{b16l}\nb16r:\t{b16r}\nb32r:\t{b32r}\nb64l:\t{b64l}\n")
+    # print(f"b4l:\t{b4l}\nb4r:\t{b4r}\nb8l:\t{b8l}\nb8r:\t{b8r}\nb16l:\t{b16l}\nb16r:\t{b16r}\nb32r:\t{b32r}\nb64l:\t{b64l}\n")
     l64r = g_func(l128r,b64l)
-    record.append(compare(l64r))
     l32l = f_func(l64r)
-    record.append(compare(l32l))
     l16l = f_func(l32l)
-    record.append(compare(l16l))
     l8l = f_func(l16l)
-    record.append(compare(l8l))
     l4l = f_func(l8l)
-    record.append(compare(l4l))
     b4l = func_rep(l4l)
-    record.append(formbit(b4l))
     l4r = g_func(l8l,b4l)
-    record.append(compare(l4r))
     b4r = func_spc(l4r)
-    record.append(formbit(b4r))
     b8l = bit_combine(b4l,b4r)
-    record.append(formbit(b8l))
     l8r = g_func(l16l,b8l)
-    record.append(compare(l8r))
     b8r = func_spc(l8r)
-    record.append(formbit(b8r))
     b16l = bit_combine(b8l,b8r)
-    record.append(formbit(b16l))
     l16r = g_func(l32l,b16l)
-    record.append(compare(l16r))
     b16r = func_rate1(l16r)
-    record.append(formbit(b16r))
     b32l = bit_combine(b16l,b16r)
-    record.append(formbit(b32l))
-    # print,(f"b4l:\t{b4l}\nb4r:\t{b4r}\nb8l:\t{b8l}\nb8r:\t{b8r}\nb16l:\t{b16l}\nb16r:\t{b16r}\nb32l:\t{b32l}\n")
+    # print(f"b4l:\t{b4l}\nb4r:\t{b4r}\nb8l:\t{b8l}\nb8r:\t{b8r}\nb16l:\t{b16l}\nb16r:\t{b16r}\nb32l:\t{b32l}\n")
     l32r = g_func(l64r,b32l)
-    record.append(compare(l32r))
-    
-    l16l = f_func(l32r)
-    b16l = func_rate1(l16l)
-    l16r = g_func(l32r,b16l)
-    b16r = func_rate1(l16r)
-    b32r = bit_combine(b16l,b16r)
-    print(b32r)
-
     b32r = func_rate1(l32r)
-    print(b32r)
-
-    record.append(formbit(b32r))
     b64r = bit_combine(b32l,b32r)
-    record.append(formbit(b64r))
     b128r = bit_combine(b64l,b64r)
-    b128r_int = list(map(int,b128r))
-    b128r_str = list(map(str,b128r_int))
-    b128r_hex = hex(int(''.join(b128r_str),base = 2))
-    record.append(b128r_hex[2:])
     b256 = bit_combine(b128l,b128r)
     b256_int = list(map(int,b256))
     b256_str = list(map(str,b256_int))
-    # b256_hex = hex(int(''.join(b256_str),base = 2))
-    b256_hex = '{:0>64x}'.format(int(''.join(b256_str),base = 2))
-    with open(base_dir+'simout.txt') as simfile:
-        simres = simfile.read()
-    if str(b256_hex) == simres:
-        print("\033[1;31m%s\033[0m" % "TRUE")
-    else:
-        print(b256_hex)
-        print(simres)
-    record.append(b256_hex)
-    
-    with open(base_dir+'record.txt','w') as file_obj:
-        for i in range(len(record)):
-            file_obj.write(f"{record[i]}\n")
+    b256_hex = hex(int(''.join(b256_str),base = 2))
+    print(b256_hex)
     # print(f"b32r:\t{b32r}\nb64r:\t{b64r}\nb128r:\t{b128r}\nb256:\t{b256}\n")
     return b256
-
-def formbit(bit):
-    bint = list(map(int,bit))
-    bstr = list(map(str,bint))
-    bhex = hex(int(''.join(bstr),base = 2))
-    return bhex
-
-
-def formllr(llr):
-    tmp = list(llr)
-    llr_arr = np.array(tmp,dtype="int")
-    result = []
-    llr_str = ''
-    for i in range(256):
-        tmpstr = np.binary_repr(llr_arr[i],width=6)
-        llr_str = llr_str + tmpstr
-        if len(llr_str) >= 32:
-            result.append(int(llr_str[0:32],base=2))
-            llr_str = llr_str[32:]
-    res_arr = np.array(result)
-    np.savetxt(base_dir+"llr_t.txt",res_arr,fmt="%d")
-    return llr_arr
-
-def compare(llr):
-    tmp = list(llr)
-    llr_arr = np.array(tmp,dtype="int")
-    result = []
-    llr_str = ''
-    for i in range(len(llr)):
-        tmpstr = np.binary_repr(llr_arr[i],width=6)
-        llr_str = llr_str + tmpstr
-        if len(llr_str) >= 48:
-            result.append(int(llr_str[0:48],base=2))
-            llr_str = llr_str[48:]
-    if len(llr_str) == 24:
-        result.append(int(llr_str[0:24],base=2))
-    return result
-    # res_arr = np.array(result)
-    # print(res_arr)
-
 
 
 if __name__ == "__main__":
@@ -472,15 +320,12 @@ if __name__ == "__main__":
     K = 128
     N = 256
 
-    llr_arr = np.loadtxt(base_dir+"llr.txt")#("/hdd/sambaFiles/llr.txt")
+    llr_arr = np.loadtxt("/hdd/Projects/Polar_code/decode/pysrc/llr.txt")#("/hdd/sambaFiles/llr.txt")
     llr = bit_reversed(llr_arr)
-    llr_arr_T = llr.T
-    llr_int = formllr(llr_arr_T)
-    b256 = decode_256(llr_int)
+    b256 = decode_256(llr)
     u_d = kronecker(b256)
     info_pos = get_infopos(K,N)
     u = extract_u(u_d[0],info_pos)
-    print(formbit(u))
     u_load = np.loadtxt(load_file)
     u_source = np.loadtxt(source_file)
     error_num = int(np.sum((u_load + u) % 2))

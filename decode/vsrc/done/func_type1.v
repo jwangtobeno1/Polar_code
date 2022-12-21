@@ -31,18 +31,18 @@ wire [1:0] b;
 generate
     genvar i;
     for(i = 0; i < `PROCESS_UNIT_LLR_NUM/2; i = i+2) begin : gen_scale
-        assign llr_arr_1[i/2] = llr[(`PROCESS_UNIT_LLR_NUM*`LLR_INTERNAL_LEN-i*`LLR_INTERNAL_LEN)-1] == 0 ?
-            {2'b00,llr[(`PROCESS_UNIT_LLR_NUM*`LLR_INTERNAL_LEN-i*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]} : 
-            {2'b11,llr[(`PROCESS_UNIT_LLR_NUM*`LLR_INTERNAL_LEN-i*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]};
+        assign llr_arr_1[i/2] = llr[(48-i*`LLR_INTERNAL_LEN)-1] == 0 ?
+            {2'b00,llr[(48-i*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]} : 
+            {2'b11,llr[(48-i*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]};
     end
 endgenerate
 
 generate
     genvar j;
     for(j = 1; j < `PROCESS_UNIT_LLR_NUM/2; j = j+2) begin : gen_scale2
-        assign llr_arr_2[j/2] = llr[(`PROCESS_UNIT_LLR_NUM*`LLR_INTERNAL_LEN-j*`LLR_INTERNAL_LEN)-1] == 0 ?
-            {2'b00,llr[(`PROCESS_UNIT_LLR_NUM*`LLR_INTERNAL_LEN-j*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]} : 
-            {2'b11,llr[(`PROCESS_UNIT_LLR_NUM*`LLR_INTERNAL_LEN-j*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]};
+        assign llr_arr_2[j/2] = llr[(48-j*`LLR_INTERNAL_LEN)-1] == 0 ?
+            {2'b00,llr[(48-j*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]} : 
+            {2'b11,llr[(48-j*`LLR_INTERNAL_LEN)-1 -:`LLR_INTERNAL_LEN]};
     end
 endgenerate
 
