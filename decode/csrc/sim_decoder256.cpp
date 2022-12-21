@@ -104,8 +104,8 @@ int main(int argc, char** argv, char** env) {
         clk_init();
     }
 
-    for(i = 0; i<8; i++){
-        sprintf(hex_str,"%08x",top->bit_out[7-i]);
+    for(i=0; i<4; i++){
+        sprintf(hex_str,"%08x",top->bit_out[3-i]);
         fdout << hex_str;
     }
 

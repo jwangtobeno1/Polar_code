@@ -2,7 +2,7 @@
 //Filename                : func_spc.v
 //Author                  : WangJie
 //Created On              : 2022-12-09 21:56
-//Last Modified           : 
+//Last Modified           : 2022-12-21 16:09
 //Description             : 
 //
 // 1. hard decision per llr
@@ -105,6 +105,5 @@ assign bit_sum = ^bit_tmp;
 
 assign bit_out = bit_sum == 0 ? bit_tmp : 
     (bit_tmp[index] == 0 ? bit_tmp + (1<<index) : bit_tmp & (~(1<<index)));
-    /* (bit_tmp[15-index] == 0 ? bit_tmp + (1<<(15-index)) : bit_tmp & (~(1<<(15-index)))); */
 
 endmodule

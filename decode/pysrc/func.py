@@ -393,32 +393,18 @@ def decode_256(llr):
     l16r = g_func(l32r,b16l)
     b16r = func_rate1(l16r)
     b32r = bit_combine(b16l,b16r)
-    print(b32r)
+    # print(b32r)
 
     b32r = func_rate1(l32r)
-    print(b32r)
+    # print(b32r)
 
     record.append(formbit(b32r))
     b64r = bit_combine(b32l,b32r)
     record.append(formbit(b64r))
     b128r = bit_combine(b64l,b64r)
-    b128r_int = list(map(int,b128r))
-    b128r_str = list(map(str,b128r_int))
-    b128r_hex = hex(int(''.join(b128r_str),base = 2))
-    record.append(b128r_hex[2:])
+    record.append(formbit(b128r))
     b256 = bit_combine(b128l,b128r)
-    b256_int = list(map(int,b256))
-    b256_str = list(map(str,b256_int))
-    # b256_hex = hex(int(''.join(b256_str),base = 2))
-    b256_hex = '{:0>64x}'.format(int(''.join(b256_str),base = 2))
-    with open(base_dir+'simout.txt') as simfile:
-        simres = simfile.read()
-    if str(b256_hex) == simres:
-        print("\033[1;31m%s\033[0m" % "TRUE")
-    else:
-        print(b256_hex)
-        print(simres)
-    record.append(b256_hex)
+    record.append(formbit(b256))
     
     with open(base_dir+'record.txt','w') as file_obj:
         for i in range(len(record)):
@@ -429,7 +415,9 @@ def decode_256(llr):
 def formbit(bit):
     bint = list(map(int,bit))
     bstr = list(map(str,bint))
-    bhex = hex(int(''.join(bstr),base = 2))
+    n = int(len(bit)/4)
+    fmt = '{{:0>{}x}}'.format(n)
+    bhex = fmt.format(int(''.join(bstr),base = 2))
     return bhex
 
 
@@ -480,7 +468,15 @@ if __name__ == "__main__":
     u_d = kronecker(b256)
     info_pos = get_infopos(K,N)
     u = extract_u(u_d[0],info_pos)
-    print(formbit(u))
+    u_hex = formbit(u)
+    with open(base_dir+'simout.txt') as simfile:
+        simres = simfile.read()
+
+    if str(u_hex) == simres:
+        print("\033[1;31m%s\033[0m" % "TRUE")
+    else:
+        print(u_hex)
+        print(simres)
     u_load = np.loadtxt(load_file)
     u_source = np.loadtxt(source_file)
     error_num = int(np.sum((u_load + u) % 2))

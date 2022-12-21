@@ -21,11 +21,12 @@ module decoder256(
 
     input   wire    [95:0]  llr_in,
     input   wire            work_en,
-    output  reg     [255:0] bit_out
+    output  reg     [127:0] bit_out
 );
 
 wire [`INST_BUS] inst;
 reg [`PU_INST_BUS]   inst_tmp;
+
 reg [95:0]  llr_mem256  [15:0];
 reg [47:0]  llr_mem128  [15:0];
 reg [47:0]  llr_mem64   [7:0];
@@ -106,6 +107,7 @@ always@(posedge clk or negedge rst_n) begin
     end
     else begin
         sw_en <= 1'b0;
+        decode_done <= 1'b0;
         case(next_state)
             IDLE: begin
                 if(work_en)
@@ -128,18 +130,15 @@ always@(posedge clk or negedge rst_n) begin
                     cnt_inst <= 8'd0;
                     sw_en <= 1'b1;
                     decode_en <= 1'b0;
-                    decode_done <= 1'b1;
                     mem_en <= 1'b0;
                 end 
                 else begin
                     decode_en <= 1'b1;
-                    decode_done <= 1'b0;
                     mem_en <= 1'b1;
                 end
             end
             BIT_OUT : begin
-                bit_out <= bit_mem256;
-                decode_done <= 1'b0;
+                decode_done <= 1'b1;
             end
             default : begin
                 sw_en <= 1'b0;
@@ -151,7 +150,6 @@ end
 always@(posedge clk or negedge rst_n) begin
     if(!rst_n) begin
         decode_state <= 3'b001;
-        /* exec_en <= 1'b0; */
     end
     else if(decode_en) begin
         case(decode_state)
@@ -251,7 +249,6 @@ always@(posedge clk or negedge rst_n) begin
                         else
                             llr_mem128[inst[11:8]] <= llr_mem128[inst[11:8]];
                         if(mem_wr_en[0]) begin
-                            decode_done <= 1'b1;
                             bit_mem256 <= bit_comb_out_tmp;
                         end
                         else
@@ -347,10 +344,10 @@ process_unit pu_inst(
     .bit_comb_out(bit_comb_out_tmp)
 );
 
-/* extract extract_inst( */
-/*     .din(bit_mem256), */
-/*     .dout(bit_out) */
-/* ); */
+extract extract_inst(
+    .din(bit_mem256),
+    .dout(bit_out)
+);
 
 instmem mem_inst(
     .addr(cnt_inst),
