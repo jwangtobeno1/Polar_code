@@ -134,4 +134,3 @@ if __name__ == '__main__':
     # source_arr = gen_source([],K)
     print(source_arr)
     polar_encode(source_arr,K,N)
-
