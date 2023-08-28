@@ -7,3 +7,4 @@
 decode/build/
 t*.txt
 t.py
+t*.csv
